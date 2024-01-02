@@ -1,6 +1,6 @@
 /*
- * Controllers of the application
- * to decide what to do on calling
+ * Controllers for the routes
+ * Entire logic of application goes here
  */
 
 
@@ -31,7 +31,8 @@ const NotesDetailView = asyncHandler(async (req, res) => {
   if ( note )
     return res.json(note);
   else{
-    /* Raise 404 error */
+    res.status(404);
+    throw new Error('Resource Not Found!');
   }
 });
 
@@ -42,8 +43,6 @@ const NotesDetailView = asyncHandler(async (req, res) => {
  * Description - Create a new note or 404
  */
 const NotesCreateView = asyncHandler(async (req, res) => {
-
-  console.log('CreateView Controller');
 
   const { 
     title,
@@ -81,7 +80,8 @@ const NotesUpdateView = asyncHandler(async (req, res) => {
     res.json(updatedNote);
   }
   else {
-    /* Raise Error */
+    res.status(404);
+    throw new Error('Resource not found!');
   }
 
 });
@@ -101,7 +101,7 @@ const NotesDeleteView = asyncHandler(async (req, res) => {
   }
   else {
     res.status(404);
-    throw new Error('Note not found');
+    throw new Error('Resource not found!');
   }
 
 });

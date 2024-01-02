@@ -10,6 +10,9 @@ import morgan     from 'morgan';
 // Local 
 import router    from './routes/notesRoutes.js';
 import connectDB from './config/db.js';
+import { 
+  notFound, 
+  errorHandler } from './middlewares/errorMiddleware.js';
 
 // SETTING ENVIRONMENT VARIABLE
 dotenv.config();
@@ -40,6 +43,11 @@ app.get('/', (_, res)=>{
 
 // Entry Point of our Note-Taking-Api Application
 app.use('/api/notes', router);
+
+
+// Override default error handler
+app.use(notFound);
+app.use(errorHandler);
 
 
 // Listen to given port with return alert message
