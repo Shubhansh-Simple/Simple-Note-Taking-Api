@@ -5,7 +5,6 @@
 // Node Packages
 import express    from 'express';
 import dotenv     from 'dotenv';
-import bodyParser from 'body-parser';
 import morgan     from 'morgan';
 
 // Local 
@@ -16,7 +15,8 @@ import connectDB from './config/db.js';
 dotenv.config();
 
 // SETTING PORT
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
+const MODE = process.env.NODE_ENV;
 
 // CONNECTING TO DATABASE
 connectDB();
@@ -26,8 +26,10 @@ const app = express();
 
 
 // Top LEVEL Middlewares
-app.use(morgan('dev'));
-app.use(bodyParser.json());
+if ( MODE === 'development' )
+  app.use(morgan('dev'));
+
+app.use(express.json());
 
 
 /* TESTING */
@@ -41,8 +43,8 @@ app.use('/api/notes', router);
 
 
 // Listen to given port with return alert message
-app.listen(port, 
-  () => console.log(`Server running on port ${port}`)
+app.listen(PORT, 
+  () => console.log(`Server running in ${MODE} mode on port ${PORT}`)
 );
 
 

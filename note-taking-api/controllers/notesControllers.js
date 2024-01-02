@@ -5,7 +5,6 @@
 
 
 // Local
-import notes        from '../data.js';
 import asyncHandler from '../middlewares/asyncHandler.js';
 import Notes        from '../models/notesModels.js';
 
@@ -42,10 +41,23 @@ const NotesDetailView = asyncHandler(async (req, res) => {
  * Endpoints   - /api/notes/
  * Description - Create a new note or 404
  */
-const NotesCreateView = (_, res) => {
-  console.log('You are using notes create view')
-  res.json(notes);
-}
+const NotesCreateView = asyncHandler(async (req, res) => {
+
+  console.log('CreateView Controller');
+
+  const { 
+    title,
+    description
+  } = req.body;
+
+  const note = await Notes.create({
+    title: title,
+    description: description
+  });
+
+  res.json(note);
+
+});
 
 
 /* 
@@ -53,9 +65,26 @@ const NotesCreateView = (_, res) => {
  * Endpoints   - /api/notes/:id
  * Description - Update note of given id or 404
  */
-const NotesUpdateView = (_, res) => {
-  console.log('Update view');
-}
+const NotesUpdateView = asyncHandler(async (req, res) => {
+  const {
+    title,
+    description,
+  } = req.body
+
+  const note = await Notes.findById(req.params.id);
+
+  if (note) {
+    note.title       = title
+    note.description = description
+
+    const updatedNote = await note.save();
+    res.json(updatedNote);
+  }
+  else {
+    /* Raise Error */
+  }
+
+});
 
 
 /* 
@@ -63,11 +92,19 @@ const NotesUpdateView = (_, res) => {
  * Endpoints   - /api/notes/:id
  * Description - Delete note of given id or 404
  */
-const NotesDeleteView = (req,res) => {
-  const updatedNotes = notes.filter(note => note._id !== req.params.id);
-  res.json(updatedNotes);
-}
+const NotesDeleteView = asyncHandler(async (req, res) => {
+  const note  = await Notes.findById(req.params.id);
 
+  if (note) {
+    await note.deleteOne();
+    res.json({message: `Note ${note.title} Removed!`});
+  }
+  else {
+    res.status(404);
+    throw new Error('Note not found');
+  }
+
+});
 
 export {
   NotesListView, 

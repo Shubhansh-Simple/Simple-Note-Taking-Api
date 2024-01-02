@@ -5,8 +5,8 @@ import mongoose from "mongoose";
  * _id          AUTO-CREATED-BY-MONGO-DB
  * title
  * description
- * created_at   CREATED-BY-MONGO-DB
- * updated_at   CREATED-BY-MONGO-DB
+ * createdAt   CREATED-BY-MONGO-DB
+ * updatedAt   CREATED-BY-MONGO-DB
  */
 
 /* "notes" table blueprint as javascript object  */
