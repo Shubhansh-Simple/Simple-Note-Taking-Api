@@ -5,7 +5,9 @@
 
 
 // Local
-import notes from '../data.js';
+import notes        from '../data.js';
+import asyncHandler from '../middlewares/asyncHandler.js';
+import Notes        from '../models/notesModels.js';
 
 
 /* 
@@ -13,10 +15,10 @@ import notes from '../data.js';
  * Endpoints   - /api/notes/
  * Description - Returns notes list ( no pagination )
  */
-const NotesListView = (_, res) => {
-  console.log('You are using notes list view');
+const NotesListView = asyncHandler(async (req, res) => {
+  const notes = await Notes.find({});
   res.json(notes);
-}
+});
 
 
 /* 
@@ -24,11 +26,15 @@ const NotesListView = (_, res) => {
  * Endpoints   - /api/notes/:id
  * Description - Returns note of given id
  */
-const NotesDetailView = (req, res) => {
-  console.log('You are using notes detail view')
-  const note = notes.find(n => n._id === req.params.id);
-  res.json(note);
-}
+const NotesDetailView = asyncHandler(async (req, res) => {
+  const note = await Notes.findById(req.params.id);
+
+  if ( note )
+    return res.json(note);
+  else{
+    /* Raise 404 error */
+  }
+});
 
 
 /* 
