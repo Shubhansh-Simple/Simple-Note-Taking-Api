@@ -16,19 +16,19 @@ import {
 const router = express.Router();
 
 /* GET - List of all notes ( no pagination ) */
-router.get('/notes',     NotesListView);
+router.get('/',     NotesListView);
 
 /* GET - Retrieve a note of given id  */
-router.get('/notes/:id', NotesDetailView);
+router.get('/:id', NotesDetailView);
 
 /* POST - Create a note */
-router.post('/notes',     NotesCreateView);
+router.post('/',     NotesCreateView);
 
 /* PUT - Update a note of given id */
-router.put('/notes/:id', NotesUpdateView);
+router.put('/:id', NotesUpdateView);
 
 /* DELETE - Delete a note of given id */
-router.delete('/notes/:id', NotesDeleteView);
+router.delete('/:id', NotesDeleteView);
 
 
 export default router;

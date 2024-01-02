@@ -2,21 +2,26 @@
  * ENTRY POINT OF THE SERVER
  */
 
+// Node Packages
 import express    from 'express';
 import dotenv     from 'dotenv';
 import bodyParser from 'body-parser';
 import morgan     from 'morgan';
 
 // Local 
-import router from './routes/notesRoutes.js';
+import router    from './routes/notesRoutes.js';
+import connectDB from './config/db.js';
 
-// ENVIRONMENT VARIABLE
+// SETTING ENVIRONMENT VARIABLE
 dotenv.config();
 
-// Setting Port
+// SETTING PORT
 const port = process.env.PORT || 5000;
 
-// Setting express
+// CONNECTING TO DATABASE
+connectDB();
+
+// SETTING EXPRESS
 const app = express();
 
 
@@ -26,13 +31,13 @@ app.use(bodyParser.json());
 
 
 /* TESTING */
-app.get('/', (req, res)=>{
+app.get('/', (_, res)=>{
   res.send('Welcome to Note-Taking-Apis');
 });
 
 
 // Entry Point of our Note-Taking-Api Application
-app.use('/api', router);
+app.use('/api/notes', router);
 
 
 // Listen to given port with return alert message
